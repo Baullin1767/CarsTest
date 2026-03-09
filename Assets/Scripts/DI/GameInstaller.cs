@@ -1,27 +1,32 @@
 using Core.Interfaces;
 using Core.Player;
 using Core.Player.Interfaces;
-using UnityEngine;
 using Zenject;
 
-public class GameInstaller : MonoInstaller
+namespace DI
 {
-    [SerializeField] private WheelJoint2D playerWheelJoint;
-    
-    public override void InstallBindings()
+    public class GameInstaller : MonoInstaller
     {
-        BindPlayerDependencies();
-    }
+        public override void InstallBindings()
+        {
+            BindPlayerDependencies();
+            BindLevelManagerDependencies();
+        }
     
-    private void BindPlayerDependencies()
-    {
-        Container.Bind<IPlayerInput>()
-            .To<PlayerInput>()
-            .AsSingle();
+        private void BindPlayerDependencies()
+        {
+            Container.Bind<IPlayerInput>()
+                .To<PlayerInput>()
+                .AsSingle();
 
-        Container.Bind<IMovement>()
-            .To<PlayerMove>()
-            .AsSingle()
-            .WithArguments(playerWheelJoint);
+            Container.Bind<IMovement>()
+                .To<PlayerMove>()
+                .AsTransient();
+        }
+    
+        private void BindLevelManagerDependencies()
+        {
+            Container.Bind<LevelManager>().AsSingle();
+        }
     }
 }

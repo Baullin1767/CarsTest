@@ -15,12 +15,11 @@ namespace Core.Player
         public WheelJoint2D _wheelJoint2D { get; set; }
 
         [Inject]
-        public void Construct(WheelJoint2D wheelJoint2D)
+        public void Construct()
         {
-            _wheelJoint2D = wheelJoint2D;
             _motor = new JointMotor2D()
             {
-                maxMotorTorque = 10000
+                maxMotorTorque = 100000
             };
         }
         
